@@ -1,13 +1,18 @@
 .PHONY: build prepare clean
 
-FLUTTER_VERSION=2.5.0-stable
+FLUTTER_VERSION=2.8.1-stable
 FLUTTER_DOWNLOAD_URL=https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_$(FLUTTER_VERSION).tar.xz
 ANDROID_SDKTOOLS_DOWNLOAD_URL=https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
+
+# Define the image name and tag
+IMAGE_NAME=flutter4ci
+IMAGE_TAG=latest
+
 
 build: .build
 
 .build: prepare Dockerfile
-	docker build .
+	docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
 	touch .build
 
 prepare: flutter-sdk/.keep flutter-sdk/android-sdk/.keep downloads/android-sdk.zip downloads/flutter-sdk.tar.xz
